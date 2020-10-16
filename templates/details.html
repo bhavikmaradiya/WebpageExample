@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block base %}
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Size</th>
+            <th>Resolution</th>
+        </tr>
+        {% for video in videos %}
+            <tr>
+                <td style="padding: 5px">{{ video.title }}</td>
+                <td style="padding: 5px">{{ video.size }}</td>
+                <td style="padding: 5px">{{ video.resolution }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+{% endblock %}
