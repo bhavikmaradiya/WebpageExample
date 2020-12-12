@@ -1,20 +1,32 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp, ValidationError
+
 from models import User
+
+
+class ProfileForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    enrollment = StringField('Enrollment', validators=[DataRequired(), Length(min=12, max=12,
+                                                                              message='Enrollment must be 12 characters long.'),
+                                                       Regexp(regex=r'([\s\d]+)$',
+                                                              message='Invalid enrollment number.')])
+    submit = SubmitField('Update')
 
 
 class RegisterForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
     enrollment = StringField('Enrollment', validators=[DataRequired(), Length(min=12, max=12,
-                                                       message='Enrollment must be 12 characters long.'),
-                                                       Regexp(regex=r'([\s\d]+)$', message='Invalid enrollment number.')])
+                                                                              message='Enrollment must be 12 characters long.'),
+                                                       Regexp(regex=r'([\s\d]+)$',
+                                                              message='Invalid enrollment number.')])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6,
-                                                     message='Password should be 6 characters long.')])
+                                                                            message='Password should be 6 characters long.')])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password',
-                                                                                     message='Password does not match')])
+                                                                                             message='Password does not match')])
     submit = SubmitField('Register')
 
     def validate_enrollment(self, enrollment):
@@ -30,9 +42,10 @@ class RegisterForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     enrollment = StringField('Enrollment', validators=[DataRequired(), Length(min=12, max=12,
-                                                       message='Enrollment must be 12 characters long.'),
-                                                       Regexp(regex=r'([\s\d]+)$', message='Invalid enrollment number.')])
+                                                                              message='Enrollment must be 12 characters long.'),
+                                                       Regexp(regex=r'([\s\d]+)$',
+                                                              message='Invalid enrollment number.')])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6,
-                                                     message='Password should be 6 characters long.')])
+                                                                            message='Password should be 6 characters long.')])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')

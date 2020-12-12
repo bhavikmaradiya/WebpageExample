@@ -7,7 +7,7 @@ app.debug = True
 app.config['SECRET_KEY'] = 'bhavik'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///web.db'
 login_manager = LoginManager(app)
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, ProfileForm
 from models import db, User
 
 db.init_app(app)
@@ -20,6 +20,12 @@ posts = [{'title': f'Post {i}', 'description': f'description {i}',
 @app.route('/')
 def home():
     return render_template("index.html", posts=posts)
+
+
+@app.route('/profile', methods=['POST', 'GET'])
+def profile():
+    form = ProfileForm()
+    return render_template("profile.html", form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
